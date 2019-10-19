@@ -1,7 +1,7 @@
 #   This file will run the script for the Central Hub
 #   This file was created by: Sam Peterson
 #   This file was created on: 10/14/19
-import bluetooth
+import Adafruit_BluefruitLE from Adafruit_BluefruitLE.services import UART
 import sys
 
 #######     Below are functions to support the main loop    #######
