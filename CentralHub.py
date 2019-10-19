@@ -1,15 +1,18 @@
 #   This file will run the script for the Central Hub
 #   This file was created by: Sam Peterson
 #   This file was created on: 10/14/19
-import Adafruit_BluefruitLE from Adafruit_BluefruitLE.services import UART
+import Adafruit_BluefruitLE
+from Adafruit_BluefruitLE.services import UART
 import sys
+from BleManager import BleManager
 
 #######     Below are functions to support the main loop    #######
 def run_mode():
     #   See if there are any commandline arguments to process
     args = sys.argv
-    if args.length is not 0 and args[0] is not None:
-        print(args[0])
+    if len(args) is not 0 and args[1] is not None:
+        print(args[1])
+    #   Will need to read in that line and use it later`
 
     #   Return 1 for add peripheral, 2 for get data, -1 to quit
     while (True):
@@ -42,7 +45,12 @@ def run():
 
 #######     Below is the main script to run the program     #######
 def main():
+    #   Test scanning for peripherals
+    ble_manager.uart_setup()
+    ble_manager.print_current_devices()
+
     #   Allow for multiple modes
+    '''
     stop = False
     while (not stop):
         #   Get what mode the user wants to run in
@@ -56,14 +64,16 @@ def main():
             #run()
         elif mode == -1:
             stop = True
+            
+    '''
 #######     --------------------------------------------    #######
 
+#######               Initialization Pre-Main               #######
 
+#   Let's initialize the Bluetooth prior to running the main
+ble_manager = BleManager()
 
+#   Run the main in a background thread
+ble_manager.ble.run_mainloop_with(main)
 
-
-
-
-
-
-main()
+#######     --------------------------------------------    #######
