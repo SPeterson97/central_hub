@@ -54,9 +54,9 @@ def main():
 				"2"  :angle2,
 	},
 		u'sensor_id': id,
-		u'time_stamp': datetime.datetime.now(timezone('US/Eastern'))
+		u'time_stamp': datetime.datetime.now()
 	})
-
+        #timezone('US/Eastern')
 	#Add to data to database
 	#users_ref = db.collection(u'test_data')
 
