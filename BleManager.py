@@ -4,56 +4,67 @@
 import atexit
 import Adafruit_BluefruitLE
 from Adafruit_BluefruitLE.services import UART
+import io
+import sys
 
 
 class BleManager:
     
     #   Class Attributes:
-    ble = None
     adapter = None
     uarts = None
     
 
 
     def __init__(self):
+        #   Want to catch any output while initializing
+        text_catcher = io.StringIO()
+        sys.stdout = text_catcher
+        
         #   Initialize the BLE provider
-        ble = Adafruit_BluefruitLE.get_provider()
+        self.ble = Adafruit_BluefruitLE.get_provider()
         
         #   Initialize the BLE system
-        ble.initialize()
+        self.ble.initialize()
+        
+        #   Restore printing to console
+        sys.stdout = sys.__stdout__
 
-    def uart_setup():
+    def uart_setup(self):
         #   Clear any cached data, prevent from going stale
-        ble.clear_cached_data()
+        self.ble.clear_cached_data()
         
         #   Get a BLE network adapter and turn it on
-        adapter = ble.get_default_adapter()
-        adapter.power_on()
+        self.adapter = self.ble.get_default_adapter()
+        self.adapter.power_on()
         
         #   Disconnect from any uart devices
         UART.disconnect_devices()
 
-    def scan():
+    def scan(self):
         #   Search for available UART devices
-        adapter.start_scan()
+        self.adapter.start_scan()
         
         #   Make sure we stop scanning after the program is over
-        atexit.register(adapter.stop_scan)
+        atexit.register(self.adapter.stop_scan)
         
         #   Get the found UART devices
-        uarts = set(UART.find_devices())
+        self.uarts = set(UART.find_devices())
         
         #   Finish scanning
-        adapter.stop_scan()
+        self.adapter.stop_scan()
         
-    def print_current_devices():
+    def print_current_devices(self):
         #   Re-scan for current devices
         self.scan()
         
         count = 1
         
         #   Print out the names of the current devices
-        if uarts != None:
-            for device in uarts:
+        if self.uarts != None and len(self.uarts) != 0:
+            print("\tFound some. Number: "+str(len(self.uarts)))
+            for device in self.uarts:
                 print(str(count) + ". " +device.name)
                 count += 1
+        else:
+            print("\tNone found")
