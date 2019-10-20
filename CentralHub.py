@@ -47,7 +47,10 @@ def run():
 def main():
     #   Test scanning for peripherals
     ble_manager.uart_setup()
-    ble_manager.print_current_devices()
+    count = 0
+    while count < 100:
+        ble_manager.print_current_devices()
+        count += 1
 
     #   Allow for multiple modes
     '''
