@@ -102,5 +102,5 @@ class BleManager:
 
     def send(self, uart, message):
         #   Send the message via uart
-        uart.write(message)
+        uart.write(message.encode())
         print("Send the message: {0}".format(message))
