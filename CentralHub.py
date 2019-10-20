@@ -46,12 +46,25 @@ def run():
 #######     Below is the main script to run the program     #######
 def main():
     #   Test scanning for peripherals
-    ble_manager.uart_setup()
+    '''
+    ble_manager.setup()
     count = 0
     while count < 100:
         ble_manager.print_current_devices()
         count += 1
+    '''
+        
+        
+    #   Get everthing setup
+    ble_manager.setup()
+    
+    #   Find the device
+    device = None
+    while device is None:
+        device = ble_manager.find_device("Adafruit")
 
+    print('Found {0}'.format(device.name))
+    
     #   Allow for multiple modes
     '''
     stop = False

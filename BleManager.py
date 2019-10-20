@@ -30,7 +30,7 @@ class BleManager:
         #   Restore printing to console
         sys.stdout = sys.__stdout__
 
-    def uart_setup(self):
+    def setup(self):
         #   Clear any cached data, prevent from going stale
         self.ble.clear_cached_data()
         
@@ -54,6 +54,18 @@ class BleManager:
         finally:
             #   Finish scanning
             self.adapter.stop_scan()
+            
+    def find_device(self, name):
+        #   Scan to see if we can find any devices
+        self.scan()
+        
+        #   Return the proper device, otherwise return none
+        if self.uarts != None and len(self.uarts) != 0:
+            for device in self.uarts:
+                if name in device.name:
+                    return device
+        else:
+            return None
         
     def print_current_devices(self):
         #   Re-scan for current devices
@@ -63,14 +75,9 @@ class BleManager:
         
         #   Print out the names of the current devices
         if self.uarts != None and len(self.uarts) != 0:
-            print("\tFound some. Number: "+str(len(self.uarts)))
             for device in self.uarts:
                 print(str(count) + ". " +device.name)
                 count += 1
-                
-                print("Connecting")
-                self.connect(device)
-                print("Done")
         else:
             print("\tNone found")
 
@@ -87,4 +94,11 @@ class BleManager:
         # Write a string to the TX characteristic.
         uart.write(b'Hello world!\r\n')
         print("Sent 'Hello world!' to the device.")
+        self.disconnect(device)
+        
+    def disconnect(self, device):
+        #   Disconnect from device
         device.disconnect()
+
+    #def send(self, message):
+        
