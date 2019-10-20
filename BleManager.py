@@ -69,3 +69,15 @@ class BleManager:
                 count += 1
         else:
             print("\tNone found")
+            
+            
+        if len(self.uarts) == 1:
+            #   Set up uart
+            print("Connecting")
+            self.connect(self.uarts[0])
+            print("Done")
+
+    def connect(device):
+        #   Connect to the peripheral device and try to disconnect
+        device.connect()
+        device.disconnect()
