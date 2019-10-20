@@ -5,6 +5,7 @@ import Adafruit_BluefruitLE
 from Adafruit_BluefruitLE.services import UART
 import sys
 from BleManager import BleManager
+from BlePeripheral import BlePeripheral
 
 #######     Below are functions to support the main loop    #######
 def run_mode():
