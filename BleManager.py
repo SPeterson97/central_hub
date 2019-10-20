@@ -43,16 +43,17 @@ class BleManager:
 
     def scan(self):
         #   Search for available UART devices
-        self.adapter.start_scan()
+        try:
+            self.adapter.start_scan()
         
-        #   Make sure we stop scanning after the program is over
-        atexit.register(self.adapter.stop_scan)
+            #   Make sure we stop scanning after the program is over
+            #atexit.register(self.adapter.stop_scan)
         
-        #   Get the found UART devices
-        self.uarts = set(UART.find_devices())
-        
-        #   Finish scanning
-        self.adapter.stop_scan()
+            #   Get the found UART devices
+            self.uarts = set(UART.find_devices())
+        finally:
+            #   Finish scanning
+            self.adapter.stop_scan()
         
     def print_current_devices(self):
         #   Re-scan for current devices
