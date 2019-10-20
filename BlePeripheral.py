@@ -11,6 +11,10 @@ class BlePeripheral:
     #   Other necessary data
     uuid = ""
     device_name = ""
+    
+    #   More UART objects
+    device = None
+    uart = None
 
 
     def __init__():

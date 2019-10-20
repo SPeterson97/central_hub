@@ -80,25 +80,27 @@ class BleManager:
                 count += 1
         else:
             print("\tNone found")
+            
+    def setup_uart(self, device):
+        print('Discovering services...')
+        #   Discover the services and create a uart object
+        UART.discover(device)
+        
+        # Once service discovery is complete create an instance of the service
+        # and start interacting with it.
+        uart = UART(device)
+        
+        return uart
 
     def connect(self, device):
         #   Connect to the peripheral device and try to disconnect
         device.connect()
-        print('Discovering services...')
-        UART.discover(device)
-
-        # Once service discovery is complete create an instance of the service
-        # and start interacting with it.
-        uart = UART(device)
-
-        # Write a string to the TX characteristic.
-        uart.write(b'Hello world!\r\n')
-        print("Sent 'Hello world!' to the device.")
-        self.disconnect(device)
         
     def disconnect(self, device):
         #   Disconnect from device
         device.disconnect()
 
-    #def send(self, message):
-        
+    def send(self, uart, message):
+        #   Send the message via uart
+        uart.write(message)
+        print("Send the message: {0}".format(message))

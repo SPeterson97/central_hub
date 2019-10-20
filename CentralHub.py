@@ -65,6 +65,32 @@ def main():
 
     print('Found {0}'.format(device.name))
     
+    #   Initialize peripheral
+    peripheral = BlePeripheral()
+    peripheral.device = device
+    
+    try:
+        #   Connect to the peripheral
+        ble_manager.connect(peripheral.device)
+        
+        #   Set up uart
+        peripheral.uart = ble_manager.setup_uart(peripheral.device)
+        
+        done = False
+        while not done:
+            message = input("Enter the message to send")
+            if "done" in message:
+                done = True
+            else:
+                ble_manager.send(peripheral.uart,message)
+                
+        
+    finally:
+        #   Disonnect to the peripheral
+        ble_manager.disconnect(peripheral.device)
+    
+    
+    
     #   Allow for multiple modes
     '''
     stop = False
