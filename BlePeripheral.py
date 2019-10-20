@@ -17,6 +17,6 @@ class BlePeripheral:
     uart = None
 
 
-    def __init__():
+    def __init__(self):
         #   Initialize the peripheral sensor
         self.uart = None
