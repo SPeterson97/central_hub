@@ -19,3 +19,4 @@ class BlePeripheral:
 
     def __init__():
         #   Initialize the peripheral sensor
+        self.uart = None
