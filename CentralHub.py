@@ -72,6 +72,9 @@ def main():
     peripheral.device = device
     
     try:
+        #   Connect to the peripheral
+        ble_manager.connect(peripheral.device)
+    
         while True:
             if not peripheral.device.is_connected():
                 #   Connect to the peripheral
