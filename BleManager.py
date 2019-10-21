@@ -113,7 +113,8 @@ class BleManager:
         
         while read:
             #   Read data for x number of seconds
-            received = uart.read(timeout_sec=20)
+            print("Reading data")
+            received = uart.read(timeout_sec=60)
             
             #   Add the received data to the buffer
             if received is not None:
