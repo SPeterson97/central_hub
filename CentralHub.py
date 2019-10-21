@@ -74,14 +74,16 @@ def main():
     try:
         #   Connect to the peripheral
         ble_manager.connect(peripheral.device)
-    
+        flag = 1
         while True:
             if not peripheral.device.is_connected:
                 #   Connect to the peripheral
                 ble_manager.connect(peripheral.device)
                 
-                #   Set up uart
-                peripheral.uart = ble_manager.setup_uart(peripheral.device)
+                if flag == 1:
+                    #   Set up uart
+                    peripheral.uart = ble_manager.setup_uart(peripheral.device)
+                    flag = 2
                 
                 #   Start looking for data
                 thread = Thread(target = ble_manager.read_data, args = (peripheral.uart,peripheral.device, ))
