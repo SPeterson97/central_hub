@@ -111,7 +111,7 @@ class BleManager:
         #   Continuously read data until told not to
         read = True
         
-        while device.is_connected():
+        while device.is_connected:
             #   Read data for x number of seconds
             print("Reading data")
             received = uart.read(timeout_sec=60)
