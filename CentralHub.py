@@ -80,9 +80,11 @@ def main():
         
         #   Start looking for data
         thread = Thread(target = ble_manager.read_data, args = (peripheral.uart, ))
+        print("Starting thread:")
         thread.start()
+        print("Thread running")
         thread.join()
-        
+        print("Thread done")
         #   Being loop to send data
         '''
         done = False
@@ -96,6 +98,7 @@ def main():
         
     finally:
         #   Disonnect to the peripheral
+        print("Exiting")
         ble_manager.disconnect(peripheral.device)
     
     sys.exit(0)
