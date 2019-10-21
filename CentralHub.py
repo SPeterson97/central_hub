@@ -6,6 +6,7 @@ from Adafruit_BluefruitLE.services import UART
 import sys
 from BleManager import BleManager
 from BlePeripheral import BlePeripheral
+from threading import Thread
 
 #######     Below are functions to support the main loop    #######
 def run_mode():
@@ -77,20 +78,27 @@ def main():
         #   Set up uart
         peripheral.uart = ble_manager.setup_uart(peripheral.device)
         
+        #   Start looking for data
+        thread = Thread(target = ble_manager.read_data, args = (peripheral.uart, ))
+        thread.start()
+        thread.join()
+        
+        #   Being loop to send data
+        '''
         done = False
         while not done:
-            message = input("Enter the message to send")
+            message = input("Enter the message to send: ")
             if "done" in message:
                 done = True
             else:
                 ble_manager.send(peripheral.uart,message)
-                
+         '''
         
     finally:
         #   Disonnect to the peripheral
         ble_manager.disconnect(peripheral.device)
     
-    
+    sys.exit(0)
     
     #   Allow for multiple modes
     '''

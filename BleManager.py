@@ -13,6 +13,8 @@ class BleManager:
     #   Class Attributes:
     adapter = None
     uarts = None
+    read = None
+    read_data_buffer = list()
     
 
 
@@ -102,5 +104,22 @@ class BleManager:
 
     def send(self, uart, message):
         #   Send the message via uart
-        uart.write(message.encode())
+        uart.write(str(message+"\n").encode())
         print("Send the message: {0}".format(message))
+
+    def read_data(self, uart):
+        #   Continuously read data until told not to
+        read = True
+        
+        while read:
+            #   Read data for x number of seconds
+            received = uart.read(timeout_sec=20)
+            
+            #   Add the received data to the buffer
+            if received is not None:
+                read_data_buffer.append(received)
+                print(str(received))
+
+    def stop_reading(self, uart):
+        #   Stop the reading of data
+        read = False
