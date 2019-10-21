@@ -72,19 +72,23 @@ def main():
     peripheral.device = device
     
     try:
-        #   Connect to the peripheral
-        ble_manager.connect(peripheral.device)
+        while True:
+            if not peripheral.device.is_connected():
+                #   Connect to the peripheral
+                ble_manager.connect(peripheral.device)
+                
+                #   Set up uart
+                peripheral.uart = ble_manager.setup_uart(peripheral.device)
+                
+                #   Start looking for data
+                thread = Thread(target = ble_manager.read_data, args = (peripheral.uart, ))
+                print("Starting thread:")
+                thread.start()
+                print("Thread running")
+                thread.join()
+                print("Thread done")
         
-        #   Set up uart
-        peripheral.uart = ble_manager.setup_uart(peripheral.device)
         
-        #   Start looking for data
-        thread = Thread(target = ble_manager.read_data, args = (peripheral.uart, ))
-        print("Starting thread:")
-        thread.start()
-        print("Thread running")
-        thread.join()
-        print("Thread done")
         #   Being loop to send data
         '''
         done = False
