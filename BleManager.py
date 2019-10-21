@@ -117,7 +117,7 @@ class BleManager:
             
             #   Add the received data to the buffer
             if received is not None:
-                read_data_buffer.append(received)
+                self.read_data_buffer.append(received)
                 print(str(received))
 
     def stop_reading(self, uart):
