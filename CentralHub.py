@@ -107,6 +107,7 @@ def get_data(device):
         
     #   See if we timed out
     if elapsed > 15:
+        print("Couldn't find -- timeout")
         return
         
     #   Now that the device is in range, start getting data process
