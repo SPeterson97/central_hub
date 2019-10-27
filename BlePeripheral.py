@@ -38,17 +38,17 @@ class BlePeripheral:
         #   Send the database object
         db.set({
             u'angle_data' : data.angle_data,
-            u'sensor_id' : sensor_id,
+            u'sensor_id' : self.sensor_id,
             u'time_stamp' : data.timestamp
         })
         
         #   Clear data
-        saved_data_buffer = list()
+        self.saved_data_buffer = list()
         
     def _parse_data(self):
         #   Break the data apart: 0,1;1,3;...
         temp_data = list()
-        for data in saved_data_buffer:
+        for data in self.saved_data_buffer:
             #   Break up via ;
             temp_data.append(data.split(';'))
         
