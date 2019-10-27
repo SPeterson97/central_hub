@@ -48,7 +48,7 @@ def run():
     db_col = db.collection(u'data')
 
     #   Gather the peripherals from the data base
-    #devices = gather_database_peripherals()
+    devices = gather_database_peripherals()
     
     #   Will want to get reading every 5 minutes.
     count = 1
