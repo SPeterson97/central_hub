@@ -50,7 +50,8 @@ class BlePeripheral:
         temp_data = list()
         for data in self.saved_data_buffer:
             #   Break up via ;
-            temp_data.append(data.split(';'))
+            for d in data.split(';'):
+                temp_data.append(d)
         
         #   Populate the Data Reading object
         newest_data = DataReading()
