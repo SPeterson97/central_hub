@@ -2,7 +2,7 @@
 from google.cloud import firestore
 import datetime
 from pytz import timezone
-import DataReading from DataReading
+from DataReading import DataReading
 
 class BlePeripheral:
 
