@@ -15,7 +15,7 @@ import datetime
 def run_mode():
     #   See if there are any commandline arguments to process
     args = sys.argv
-    if len(args) is not 0 and args[1] is not None:
+    if len(args) > 1 and args[1] is not None:
         print(args[1])
     #   Will need to read in that line and use it later`
 
@@ -44,7 +44,7 @@ def add_peripheral():
 #######     Below is to run the normal data gathering       #######
 def run():
     #   Set up database connections
-    db.firestore.Client()
+    db = firestore.Client()
     db_col = db.collection(u'data')
 
     #   Gather the peripherals from the data base
