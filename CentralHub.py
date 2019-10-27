@@ -51,7 +51,9 @@ def run():
     #devices = gather_database_peripherals()
     
     #   Will want to get reading every 5 minutes.
-    while (True):
+    count = 1
+    while (count == 1):
+        count += 1
         #   Gather data from each device
         '''
         for device in devices:
@@ -61,16 +63,20 @@ def run():
         d = BlePeripheral()
         d.saved_data_buffer = ["0,1;1,2;2,3","3,4;4,5"]
         d.sensor_id = 50
-        devices = [d]
+        now = datetime.now().strftime("%m%d%Y_%H%M")
+        doc_ref = db_col.document(now)
+        d.send_data(doc_ref)
+        '''
         #   Now have the device process their data
         for device in devices:
             #   Have each device send the data
             now = datetime.now().strftime("%m%d%Y_%H%M")
             doc_ref = db_col.document(now)
             device.send_data(doc_ref)
-            
+        '''
+        print("Done")
         #   Sleep for 5min now
-        time.sleep(5*60)
+        #time.sleep(5*60)
     return 0
     
 def gather_database_peripherals():
