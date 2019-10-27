@@ -45,7 +45,7 @@ class BlePeripheral:
         #   Clear data
         saved_data_buffer = list()
         
-    def _parse_data(self)
+    def _parse_data(self):
         #   Break the data apart: 0,1;1,3;...
         temp_data = list()
         for data in saved_data_buffer:
