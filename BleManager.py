@@ -107,18 +107,18 @@ class BleManager:
         uart.write(str(message+"\n").encode())
         print("Send the message: {0}".format(message))
 
-    def read_data(self, uart, device):
+    def read_data(self, peripheral):
         #   Continuously read data until told not to
         read = True
         
-        while device.is_connected:
+        while peripheral.device.is_connected:
             #   Read data for x number of seconds
             print("Reading data")
-            received = uart.read(timeout_sec=10)
+            received = peripheral.uart.read(timeout_sec=5)
             
             #   Add the received data to the buffer
             if received is not None:
-                self.read_data_buffer.append(received)
+                peripheral.saved_data_buffer.append(received)
                 print(str(received))
 
     def stop_reading(self, uart):
