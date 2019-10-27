@@ -1,4 +1,9 @@
 #This file will be used for BLE peripheral devices
+from google.cloud import firestore
+import datetime
+from pytz import timezone
+import DataReading from DataReading
+
 class BlePeripheral:
 
     #   This data is what will be stored in the database
@@ -15,8 +20,39 @@ class BlePeripheral:
     #   More UART objects
     device = None
     uart = None
-
+    uart_init = False
+    
+    #   Data saved
+    saved_data_buffer = None
+    
 
     def __init__(self):
         #   Initialize the peripheral sensor
         self.uart = None
+        self.saved_data_buffer = list()
+        
+    def send_data(self, db):
+        #   Parse data and send it to the database
+        data = self._parse_data()
+        
+        #   Send the database object
+        db.set({
+            u'angle_data' : data.angle_data,
+            u'sensor_id' : sensor_id,
+            u'time_stamp' : data.timestamp
+        })
+        
+    def _parse_data(self)
+        #   Break the data apart: 0,1;1,3;...
+        temp_data = list()
+        for data in saved_data_buffer:
+            #   Break up via ;
+            temp_data.append(data.split(';'))
+        
+        #   Populate the Data Reading object
+        newest_data = DataReading()
+        for data_point in temp_data:
+            newest_data.add_data(data_point)
+            
+        #   Return the data reading object
+        return newest_data

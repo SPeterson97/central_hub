@@ -3,10 +3,13 @@
 #   This file was created on: 10/14/19
 import Adafruit_BluefruitLE
 from Adafruit_BluefruitLE.services import UART
+from google.cloud import firestore
 import sys
 from BleManager import BleManager
 from BlePeripheral import BlePeripheral
 from threading import Thread
+import time
+import datetime
 
 #######     Below are functions to support the main loop    #######
 def run_mode():
@@ -40,27 +43,112 @@ def add_peripheral():
 
 #######     Below is to run the normal data gathering       #######
 def run():
-    #do nothing
+    #   Set up database connections
+    db.firestore.Client()
+    db_col = db.collection(u'data')
+
+    #   Gather the peripherals from the data base
+    devices = gather_database_peripherals()
+    
+    #   Will want to get reading every 5 minutes.
+    while (True):
+        #   Gather data from each device
+        for device in devices:
+            #   Get the data from the readings
+            get_data(device)
+        
+        #   Now have the device process their data
+        for device in devices:
+            #   Have each device send the data
+            now = datetime.now().strftime("%m%d%Y_%H%M")
+            doc_ref = db_col.document(now)
+            device.send_data(doc_ref)
+            
+        #   Sleep for 5min now
+        time.sleep(5*60)
     return 0
+    
+def gather_database_peripherals()
+    #   Need to return list of peripherals
+    
+    #   Will got to database later, just get device for now
+    device = None
+    while device is None:
+        device = ble_manager.find_device("Adafruit")
+        
+    print('Found {0}'.format(device.name))
+    
+    #   Initialize peripheral
+    peripheral = BlePeripheral()
+    peripheral.device = device
+    
+    return [peripheral]
+    
+def get_data(device):
+    #   Make sure the device is in range and set timeout of 15 seconds
+    start = time.time()
+    time.clock()
+    
+    test = None
+    elapsed = 0
+    while test is None and elapsed < 15:
+        test = ble_manager.find_device(device.device_name)
+        elapsed = time.time() - start
+        
+    #   See if we timed out
+    if elapsed > 15:
+        return
+        
+    #   Now that the device is in range, start getting data process
+    try:
+        #   Connect to the peripheral
+        ble_manager.connect(device.device)
+    
+        #   Make sure that uart is set up
+        if not device.uart_init:
+            #   Set up uart
+            device.uart = ble_manager.setup_uart(device.device)
+            device.uart_init = True
+            
+        #   Set up device to start reading data
+        thread = Thread(target = ble_manager.read_data, args = (device, ))
+        print("Starting thread:")
+        thread.start()
+        print("Thread running")
+        
+        #   UART is set up and looking for data, need to signal the device to start reading data
+        ble_manager.send(device.uart, "start")
+        
+        #   Wait for the thread to finish
+        thread.join()
+        print("Thread done, returning and disconnecting to process data")
+    
+    finally:
+        #   Make sure we disconnect
+        ble_manager.disconnect(device.device)
 
 #######     --------------------------------------------    #######
 
 #######     Below is the main script to run the program     #######
 def main():
-    #   Test scanning for peripherals
-    '''
-    ble_manager.setup()
-    count = 0
-    while count < 100:
-        ble_manager.print_current_devices()
-        count += 1
-    '''
-        
-        
     #   Get everthing setup
     ble_manager.setup()
     
-    #   Find the device
+    #   Lets figure out what to run
+    mode = run_mode()
+    
+    if mode == 1:
+        #   Need to add peripherals
+        add_peripheral()
+    elif mode == 2:
+        #   Normal operation
+        run()
+    else:
+        #   Just exit
+        sys.exit(0)
+    
+    '''
+    #   Scan for the devices
     device = None
     while device is None:
         device = ble_manager.find_device("Adafruit")
@@ -95,7 +183,7 @@ def main():
         
         
         #   Being loop to send data
-        '''
+        
         done = False
         while not done:
             message = input("Enter the message to send: ")
@@ -103,13 +191,13 @@ def main():
                 done = True
             else:
                 ble_manager.send(peripheral.uart,message)
-         '''
+         
         
     finally:
         #   Disonnect to the peripheral
         print("Exiting")
         ble_manager.disconnect(peripheral.device)
-    
+    '''
     sys.exit(0)
     
     #   Allow for multiple modes
