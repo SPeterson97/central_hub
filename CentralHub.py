@@ -66,8 +66,11 @@ def run():
         doc_ref = db_col.document(now)
         d.send_data(doc_ref)
         '''
+        print("Got data, going to process data")
+        
         #   Now have the device process their data
         for device in devices:
+            print(device.name)
             #   Have each device send the data
             now = datetime.now().strftime("%m%d%Y_%H%M")
             doc_ref = db_col.document(now)
@@ -139,6 +142,7 @@ def get_data(device):
     finally:
         #   Make sure we disconnect
         ble_manager.disconnect(device.device)
+        print("Disconnected")
 
 #######     --------------------------------------------    #######
 
