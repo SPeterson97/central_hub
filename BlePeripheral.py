@@ -42,6 +42,9 @@ class BlePeripheral:
             u'time_stamp' : data.timestamp
         })
         
+        #   Clear data
+        saved_data_buffer = list()
+        
     def _parse_data(self)
         #   Break the data apart: 0,1;1,3;...
         temp_data = list()
