@@ -22,5 +22,6 @@ class DataReading:
         
     def add_data(self, data):
         #   Add a data point
+        print(data)
         parsed_data = data.split(',')
-        angle_data[str(parsed_data[0])] = int(parsed_data[1])
+        self.angle_data[str(parsed_data[0])] = int(parsed_data[1])
