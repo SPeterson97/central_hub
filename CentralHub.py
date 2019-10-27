@@ -55,7 +55,6 @@ def run():
     while (count == 1):
         count += 1
         #   Gather data from each device
-        '''
         for device in devices:
             #   Get the data from the readings
             get_data(device)
@@ -73,7 +72,7 @@ def run():
             now = datetime.now().strftime("%m%d%Y_%H%M")
             doc_ref = db_col.document(now)
             device.send_data(doc_ref)
-        '''
+            
         print("Done")
         #   Sleep for 5min now
         #time.sleep(5*60)
@@ -113,11 +112,13 @@ def get_data(device):
     #   Now that the device is in range, start getting data process
     try:
         #   Connect to the peripheral
+        print("Connecting")
         ble_manager.connect(device.device)
     
         #   Make sure that uart is set up
         if not device.uart_init:
             #   Set up uart
+            print("Initializing UART")
             device.uart = ble_manager.setup_uart(device.device)
             device.uart_init = True
             

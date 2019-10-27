@@ -10,7 +10,7 @@ class DataReading:
 
     def __init__(self):
         #   Use this to init the data reading
-        timestamp = datetime.datetime.now()
+        self.timestamp = datetime.datetime.now()
         angle_data = dict()
         
     def clear_data(self):
