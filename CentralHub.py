@@ -133,7 +133,7 @@ def get_data(device):
         print("Thread running")
         
         #   UART is set up and looking for data, need to signal the device to start reading data
-        ble_manager.send(device.uart, "start")
+        ble_manager.send(device.uart, "START")
         
         #   Wait for the thread to finish
         thread.join()
