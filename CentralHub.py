@@ -70,7 +70,7 @@ def run():
         
         #   Now have the device process their data
         for device in devices:
-            print(device.name)
+            print(device.device_name)
             #   Have each device send the data
             now = datetime.now().strftime("%m%d%Y_%H%M")
             doc_ref = db_col.document(now)
