@@ -46,11 +46,15 @@ class BlePeripheral:
         self.saved_data_buffer = list()
         
     def _parse_data(self):
+        #   Append all the data together
+        temp_str = ""
+        for data in self.saved_data_buffer:
+            temp_str.append(data)
+        
         #   Break the data apart: 0,1;1,3;...
         temp_data = list()
-        for data in self.saved_data_buffer:
-            #   Break up via ;
-            for d in data.split(';'):
+        for d in temp_str.split(';'):
+            if d is not None or d is not "":
                 temp_data.append(d)
         
         #   Populate the Data Reading object
