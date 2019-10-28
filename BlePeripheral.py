@@ -60,7 +60,14 @@ class BlePeripheral:
         #   Populate the Data Reading object
         newest_data = DataReading()
         for data_point in temp_data:
-            newest_data.add_data(data_point)
+            #   Make sure we look at valid data point
+            if len(data_point) > 1 and (data_point[0] is not None or data_point[0] is not ""):
+                #   If we get nothing for the distance, just put 0
+                if data_point[1] is None or data_point[1] is "":
+                    data_point[1] = 0
+                    newest_data.add_data(data_point)
+                else:
+                    newest_data.add_data(data_point)
             
         #   Return the data reading object
         return newest_data
