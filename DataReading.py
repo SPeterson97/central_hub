@@ -4,8 +4,8 @@ from pytz import timezone
 
 class DataReading:
 
-    #   Data to store in the database
-    angle_data = {"angle": 1}
+    #   Data to store in the database {"angle": 1}
+    angle_data = dict()
     timestamp = None
 
     def __init__(self):

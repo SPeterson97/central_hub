@@ -160,6 +160,8 @@ def main():
     elif mode == 2:
         #   Normal operation
         run()
+        print("Done running")
+        sys.exit(0)
     else:
         #   Just exit
         sys.exit(0)
