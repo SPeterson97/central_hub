@@ -100,7 +100,17 @@ class BleManager:
         
     def disconnect(self, device):
         #   Disconnect from device
-        device.disconnect()
+        try:
+            if device.is_connected:
+                device.disconnect()
+        finally:
+            if not device.is_connected:
+                #   Already disconnected, just return
+                return
+            else:
+                #   Problem disconnecting, just return anyways
+                return
+            
 
     def send(self, uart, message):
         #   Send the message via uart
