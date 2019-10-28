@@ -24,4 +24,10 @@ class DataReading:
         #   Add a data point
         print(data)
         parsed_data = data.split(',')
-        self.angle_data[str(parsed_data[0])] = int(parsed_data[1])
+        distance = 0
+        try:
+            distance = int(parsed_data[1])
+        except:
+            distance = 0
+        
+        self.angle_data[str(parsed_data[0])] = distance
