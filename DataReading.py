@@ -18,7 +18,7 @@ class DataReading:
         angle_data = dict()
         
     def set_timestamp(self):
-        timestamp = datetime.datetime.now()
+        timestamp = datetime.datetime.now(timezone('EST'))
         
     def add_data(self, data):
         #   Add a data point
