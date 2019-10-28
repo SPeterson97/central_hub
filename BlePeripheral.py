@@ -49,7 +49,7 @@ class BlePeripheral:
         #   Append all the data together
         temp_str = ""
         for data in self.saved_data_buffer:
-            temp_str.append(data)
+            temp_str = temp_str + str(data)
         
         #   Break the data apart: 0,1;1,3;...
         temp_data = list()
