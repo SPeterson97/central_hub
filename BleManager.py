@@ -101,8 +101,7 @@ class BleManager:
     def disconnect(self, device):
         #   Disconnect from device
         try:
-            if device.is_connected:
-                device.disconnect()
+            device.disconnect()
         finally:
             if not device.is_connected:
                 #   Already disconnected, just return
