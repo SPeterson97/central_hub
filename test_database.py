@@ -37,6 +37,7 @@ def main():
 	db = firestore.Client()
 	
 	#Get name for new document
+	'''
 	doc = input("Enter the name of the document you'd like to create: ")
 	
 	#Create the reference to the document we want to create or modify
@@ -60,10 +61,30 @@ def main():
 	#Add to data to database
 	#users_ref = db.collection(u'test_data')
 
-
+	'''
+	dist = (386-200)/60
+        
+	doc_ref = db.collection(u'sensor_data').document("-1")
+	tempData =dict()
+	for i in range(61):
+		tempData[str(30+i)] = 386-(dist*(i))
+	dist = (276.86-200)/48
+	for i in range(61,111):
+		tempData[str(30+i)] = 200 + (dist*(i-60))
+	dist = 23.5/12
+	for i in range(111,121):
+		tempData[str(30+i)] = 276.86 - (i-110)*dist
+	print(tempData)
+	
 	#docs = users_ref.get()
-
-
+	doc_ref.set({
+                u'given_data': tempData,
+                u'gps_location': "",
+                u'mounted_height': 200,
+		u'base_to_road_angle': 0,
+		u'sensor_id': -1
+        })
+	
 
 if __name__ == "__main__":
 	main()
