@@ -53,7 +53,6 @@ def run():
     #   Will want to get reading every 5 minutes.
     count = 1
     while (count == 1):
-        count += 1
         #   Gather data from each device
         for device in devices:
             #   Get the data from the readings
