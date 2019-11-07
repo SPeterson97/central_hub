@@ -77,8 +77,9 @@ def run():
             device.send_data(doc_ref)
             
         print("Done")
-        #   Sleep for 5min now
-        #time.sleep(5*60)
+        print("Counter: "+str(count))
+        #   Sleep for 1min now
+        time.sleep(60)
     return 0
     
 def gather_database_peripherals():
