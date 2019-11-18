@@ -15,21 +15,25 @@ from datetime import datetime
 def run_mode():
     #   See if there are any commandline arguments to process
     args = sys.argv
+    args_present = False
     if len(args) > 1 and args[1] is not None:
         print(args[1])
+        temp = int(args[1])
+        args_present = True
     #   Will need to read in that line and use it later`
 
     #   Return 1 for add peripheral, 2 for get data, -1 to quit
-    while (True):
+    while (not args_present):
         print("Please enter what mode you would like to run in (1,2, or 3):\n ")
         temp = int(input("1. Add Peripheral\n2. Normal Function\n3. Quit\n"))
+        args_present = True
 
-        if temp == 1:
-            return 1
-        elif temp == 2:
-            return 2
-        elif temp == 3:
-            return -1
+    if temp == 1:
+        return 1
+    elif temp == 2:
+        return 2
+    else:
+        return -1
 
 #######     --------------------------------------------    #######
 
@@ -243,10 +247,18 @@ def main():
 
 #######               Initialization Pre-Main               #######
 
-#   Let's initialize the Bluetooth prior to running the main
-ble_manager = BleManager()
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/central_hub/ParkIT-3ee0b46b06f7.json"
 
-#   Run the main in a background thread
-ble_manager.ble.run_mainloop_with(main)
+while(True):
+    try:
+        #   Let's initialize the Bluetooth prior to running the main
+        ble_manager = BleManager()
+
+        #   Run the main in a background thread
+        ble_manager.ble.run_mainloop_with(main)
+    except:
+        print("There was an error... Rerunning")
+    finally:
+        print("Rerunning")
 
 #######     --------------------------------------------    #######
