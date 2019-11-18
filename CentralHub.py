@@ -11,6 +11,7 @@ from threading import Thread
 import time
 from datetime import datetime
 import os
+import uuid
 
 #######     Below are functions to support the main loop    #######
 def run_mode():
@@ -94,7 +95,8 @@ def gather_database_peripherals():
     #   Will got to database later, just get device for now
     device = None
     while device is None:
-        device = ble_manager.find_device("Adafruit")
+        #device = ble_manager.find_device("Adafruit")
+        device = ble_manager.find_device(service_uuids=[uuid.UUID('6E400001-B5A3-F393-E0A9-E50E24DCCA9E')]
         
     print('Found {0}'.format(device.name))
     
@@ -147,7 +149,7 @@ def get_data(device):
         thread.join()
         print("Thread done, returning and disconnecting to process data")
     except:
-        
+        return
     finally:
         #   Make sure we disconnect
         ble_manager.disconnect(device.device)
