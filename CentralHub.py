@@ -146,7 +146,8 @@ def get_data(device):
         #   Wait for the thread to finish
         thread.join()
         print("Thread done, returning and disconnecting to process data")
-    
+    except:
+        
     finally:
         #   Make sure we disconnect
         ble_manager.disconnect(device.device)
@@ -249,7 +250,7 @@ def main():
 #######               Initialization Pre-Main               #######
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/central_hub/ParkIT-3ee0b46b06f7.json"
-
+'''
 while(True):
     try:
         #   Let's initialize the Bluetooth prior to running the main
@@ -261,5 +262,10 @@ while(True):
         print("There was an error... Rerunning")
     finally:
         print("Rerunning")
+'''
+#   Let's initialize the Bluetooth prior to running the main
+ble_manager = BleManager()
 
+#   Run the main in a background thread
+ble_manager.ble.run_mainloop_with(main)
 #######     --------------------------------------------    #######

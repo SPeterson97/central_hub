@@ -96,7 +96,11 @@ class BleManager:
 
     def connect(self, device):
         #   Connect to the peripheral device and try to disconnect
-        device.connect()
+        try:
+            device.connect()
+        finally:
+            #   Don't handle the error, may have abruptly disconnected
+            return
         
     def disconnect(self, device):
         #   Disconnect from device
