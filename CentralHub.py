@@ -251,7 +251,7 @@ def main():
 
 #######               Initialization Pre-Main               #######
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/central_hub/ParkIT-3ee0b46b06f7.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/SeniorDesign/central_hub/ParkIT-3ee0b46b06f7.json"
 '''
 while(True):
     try:
