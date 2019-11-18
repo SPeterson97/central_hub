@@ -95,8 +95,8 @@ def gather_database_peripherals():
     #   Will got to database later, just get device for now
     device = None
     while device is None:
-        #device = ble_manager.find_device("Adafruit")
-        device = ble_manager.find_device(service_uuids=[uuid.UUID('6E400001-B5A3-F393-E0A9-E50E24DCCA9E')])
+        device = ble_manager.find_device("Adafruit")
+        #service_uuids=[uuid.UUID('6E400001-B5A3-F393-E0A9-E50E24DCCA9E')]
         
     print('Found {0}'.format(device.name))
     
