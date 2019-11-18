@@ -10,6 +10,7 @@ from BlePeripheral import BlePeripheral
 from threading import Thread
 import time
 from datetime import datetime
+import os
 
 #######     Below are functions to support the main loop    #######
 def run_mode():
