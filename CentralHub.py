@@ -44,8 +44,10 @@ def add_peripheral():
 #######     Below is to run the normal data gathering       #######
 def run():
     #   Set up database connections
+    print("Setting up database connection...")
     db = firestore.Client()
     db_col = db.collection(u'data')
+    print("Connection established")
 
     #   Gather the peripherals from the data base
     devices = gather_database_peripherals()
@@ -78,7 +80,7 @@ def run():
         print("Done")
         print("Counter: "+str(count))
         #   Sleep for 1min now
-        time.sleep(60)
+        time.sleep(30)
     return 0
     
 def gather_database_peripherals():
@@ -105,6 +107,7 @@ def get_data(device):
     test = None
     elapsed = 0
     while test is None and elapsed < 15:
+        print("Finding the device")
         test = ble_manager.find_device(device.device_name)
         elapsed = time.time() - start
         
