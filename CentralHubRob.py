@@ -98,7 +98,6 @@ def gather_database_peripherals():
     #   Initialize peripheral
     peripheral = BlePeripheral()
     peripheral.device = device
-    peripheral.device_name = "Adafruit BLE!"
     
     return [peripheral]
     
@@ -109,8 +108,8 @@ def get_data(device):
     
     test = None
     elapsed = 0
+    print("Finding the device")
     while test is None and elapsed < 15:
-        print("Finding the device")
         test = ble_manager.find_device(device.device_name)
         elapsed = time.time() - start
         
