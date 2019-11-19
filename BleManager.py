@@ -95,12 +95,21 @@ class BleManager:
         return uart
 
     def connect(self, device):
+        #   First check to see if we are already connected or not
+        if device.is_connected:
+            #   Device is already connected, don't do anything
+            print("Device is already connected")
+            return True
+    
         #   Connect to the peripheral device and try to disconnect
         try:
             device.connect()
+            success = True
+        except:
+            success = False
         finally:
             #   Don't handle the error, may have abruptly disconnected
-            return
+            return success
         
     def disconnect(self, device):
         #   Disconnect from device
@@ -125,10 +134,10 @@ class BleManager:
         print("Send the message: {0}".format(message))
 
     def read_data(self, peripheral):
-        #   Continuously read data until told not to
-        read = True
+        #   Continuously read data until we time out 5 times
+        timeouts = 0
         
-        while peripheral.device.is_connected:
+        while peripheral.device.is_connected and timeouts < 5:
             #   Read data for x number of seconds
             print("Reading data")
             received = peripheral.uart.read(timeout_sec=5)
@@ -137,6 +146,9 @@ class BleManager:
             if received is not None:
                 peripheral.saved_data_buffer.append(received)
                 print(str(received))
+            else:
+                print("--No data received--")
+                timeouts = timeouts + 1
 
     def stop_reading(self, uart):
         #   Stop the reading of data
