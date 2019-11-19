@@ -32,6 +32,10 @@ class BlePeripheral:
         self.saved_data_buffer = list()
         
     def send_data(self, db):
+        #   First, check to see if there is data to send
+        if saved_data_buffer is None or len(saved_data_buffer) < 2:
+            return
+            
         #   Parse data and send it to the database
         data = self._parse_data()
         
