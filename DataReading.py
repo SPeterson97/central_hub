@@ -30,4 +30,8 @@ class DataReading:
         except:
             distance = 0
         
+        #   Remove ok if in buffer
+        if "ok" in parsed_data[0]:
+            parsed_data[0] = parsed_data[0].replace("ok","")
+        
         self.angle_data[str(parsed_data[0])] = distance
