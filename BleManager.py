@@ -180,7 +180,7 @@ class BleManager:
             thread.join()
         
             #   Add the received data to the buffer
-            if received is not None and received == "ok":
+            if received is not None and (received == "ok" or received == "o" or received == "k"):
                 #   Got response we wanted
                 got_response = True
                 print("Received: "+str(received))
