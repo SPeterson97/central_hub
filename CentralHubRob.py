@@ -81,7 +81,7 @@ def run():
         #counter = counter + 1
         
         #   Sleep for 1min now
-        time.sleep(30)
+        time.sleep(15)
     return 0
     
 def gather_database_peripherals():
@@ -136,7 +136,13 @@ def get_data(device):
             device.uart_init = True
         else:
             print("UART already initialized")
-            
+        
+        print("Telling device to run")
+        ble_manager.send(device.uart, "DATA")
+        
+        #   Now sleep for 15 seconds
+        time.sleep(7)
+        
         #   Set up device to start reading data
         thread = Thread(target = ble_manager.read_data, args = (device, ))
         print("Starting thread:")
