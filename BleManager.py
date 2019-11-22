@@ -164,7 +164,7 @@ class BleManager:
             #   Set up device to start reading data
             print("Starting thread")
             try:
-                thread = Thread(target = send_get_data, args = (self, peripheral.uart,))
+                thread = Thread(target = self.send_get_data, args = (self, peripheral.uart,))
             except Exception as e:
                 print(e)
             print("Start thread to send data request:")
