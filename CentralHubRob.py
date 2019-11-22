@@ -109,7 +109,7 @@ def get_data(device):
     test = None
     elapsed = 0
     print("Finding the device")
-    while test is None and elapsed < 15:
+    while test is None and elapsed < 15 and not device.is_connected:
         test = ble_manager.find_device(device.device_name)
         elapsed = time.time() - start
         
