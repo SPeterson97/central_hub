@@ -7,6 +7,7 @@ from Adafruit_BluefruitLE.services import UART
 import io
 import sys
 from threading import Thread
+import time
 
 
 class BleManager:
