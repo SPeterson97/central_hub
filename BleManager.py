@@ -136,8 +136,9 @@ class BleManager:
     def read_data(self, peripheral):
         #   Continuously read data until we time out 5 times
         timeouts = 0
+        got_data = False
         
-        while peripheral.device.is_connected and timeouts < 5:
+        while peripheral.device.is_connected and timeouts < 3:
             #   Read data for x number of seconds
             print("Reading data")
             received = peripheral.uart.read(timeout_sec=5)
@@ -145,7 +146,11 @@ class BleManager:
             #   Add the received data to the buffer
             if received is not None:
                 peripheral.saved_data_buffer.append(received)
+                got_data = True
                 print(str(received))
+            elif got_data and received is None:
+                print("Already got data and timed out.. returning")
+                return
             else:
                 print("--No data received--")
                 timeouts = timeouts + 1
