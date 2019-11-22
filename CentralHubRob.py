@@ -138,7 +138,12 @@ def get_data(device):
             print("UART already initialized")
         
         print("Telling device to run")
-        ble_manager.send(device.uart, "DATA")
+        device_responsive = ble_manager.get_response(device)
+        
+        #   Make sure the device is ready. If not, just return
+        if not device_responsive:
+            print("Starting the data collection failed")
+            return
         
         #   Now sleep for 15 seconds
         time.sleep(7)

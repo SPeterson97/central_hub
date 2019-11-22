@@ -15,7 +15,7 @@ class BleManager:
     uarts = None
     read = None
     read_data_buffer = list()
-    
+    look_for_data = False
 
 
     def __init__(self):
@@ -154,6 +154,47 @@ class BleManager:
             else:
                 print("--No data received--")
                 timeouts = timeouts + 1
+    
+    def get_response(self, peripheral):
+        #   Continuously tell the peripheral to read data
+        got_response = False
+    
+        while peripheral.device.is_connected and not got_response:
+            #   Set up device to start reading data
+            thread = Thread(target = self.send_get_data, args = (peripheral.uart,))
+            print("Start thread to send data request:")
+            thread.start()
+            print("Thread started, going to wait a second before sending data")
+        
+            #   Read data for x number of seconds
+            print("Waiting for response of OK")
+            received = peripheral.uart.read(timeout_sec=3)
+            
+            #   Join the thread now
+            thread.join()
+        
+            #   Add the received data to the buffer
+            if received is not None and received is "ok":
+                #   Got response we wanted
+                got_response = True
+                print("Received: "+str(received))
+            elif received is None:
+                print("--No response received--")
+            else:
+                print("--Got different response than expected--")
+                
+        #   Let's see if the device disconnected
+        if not peripheral.device.is_connected:
+            #   Know the device disconnected without getting response, so return false
+            print("Peripheral disconnected without getting a response")
+            return False
+        #   Got the correct response, so return true
+        return True
+                
+    def send_get_data(self, uart):
+        #   Wait a second and then send data
+        time.sleep(1)
+        self.send(uart, "DATA")
 
     def stop_reading(self, uart):
         #   Stop the reading of data
