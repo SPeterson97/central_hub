@@ -139,6 +139,7 @@ class BleManager:
         #   Continuously read data until we time out 5 times
         timeouts = 0
         got_data = False
+        received = ""
         
         while peripheral.device.is_connected and timeouts < 3:
             #   Read data for x number of seconds
