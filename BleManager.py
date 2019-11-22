@@ -162,7 +162,10 @@ class BleManager:
         while peripheral.device.is_connected and not got_response:
             #   Set up device to start reading data
             print("Starting thread")
-            thread = Thread(target = self.send_get_data, args = (peripheral.uart,))
+            try:
+                thread = Thread(target = send_get_data, args = (self, peripheral.uart,))
+            except Exception as e:
+                print(e)
             print("Start thread to send data request:")
             thread.start()
             print("Thread started, going to wait a second before sending data")
