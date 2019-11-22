@@ -146,7 +146,7 @@ def get_data(device):
             return
         
         #   Now sleep for 15 seconds
-        time.sleep(7)
+        time.sleep(11)
         
         #   Set up device to start reading data
         thread = Thread(target = ble_manager.read_data, args = (device, ))
