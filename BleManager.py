@@ -180,14 +180,14 @@ class BleManager:
             thread.join()
         
             #   Add the received data to the buffer
-            if received is not None and received is "ok":
+            if received is not None and received == "ok":
                 #   Got response we wanted
                 got_response = True
                 print("Received: "+str(received))
             elif received is None:
                 print("--No response received--")
             else:
-                print("--Got different response than expected--")
+                print("--Got different response than expected-- String: "+received)
                 
         #   Let's see if the device disconnected
         if not peripheral.device.is_connected:
