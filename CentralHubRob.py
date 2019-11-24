@@ -62,14 +62,14 @@ def add_peripheral():
             
             print("Got data")
             
-            data.append(device.return_data())
+            data_arr.append(device.return_data())
     
     #   All data collected, now send to database
     doc_ref.set({
         u'base_to_road_angle' : 15,
-        u'reading1' : data[0],
-        u'reading2' : data[1],
-        u'reading3' : data[2],
+        u'reading1' : data_arr[0],
+        u'reading2' : data_arr[1],
+        u'reading3' : data_arr[2],
         u'gps_location' : None,
         u'lat' : 0,
         u'long' : 0,
