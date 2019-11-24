@@ -194,9 +194,9 @@ def trigger_update(doc_snapshot, changes, read_time):
     print("Setting the trigger back to 0")
     db_col = self.db.collection(u'get_data_trigger')
     doc_ref = db_col.document(u'trigger')
-    doc_ref.set{(
+    doc_ref.set({
         u'get_data': 0
-    )}
+    })
     return
 
 #######     --------------------------------------------    #######
