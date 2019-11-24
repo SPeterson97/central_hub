@@ -187,11 +187,19 @@ def check_update():
     db = firestore.Client()
     db_col = db.collection(u'get_data_trigger')
     doc_ref = db_col.document(u'trigger')
+    to_update = doc_ref.get().get(u'get_data')
     
-    #   Need to set back to 0
-    doc_ref.set({
-        u'get_data': 0
-    })
+    #   Now need to check if we need to update
+    if to_update == 1:
+        #   Yes, update. Reset back to 0.
+        doc_ref.set({
+            u'get_data': 0
+        })
+        
+        return True
+    else:
+        #   No update
+        return False
 
 #######     --------------------------------------------    #######
 
@@ -225,14 +233,9 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/SeniorDesign/
 update = False
 db = None
 
-db = firestore.Client()
-db_col = db.collection(u'get_data_trigger')
-doc_ref = db_col.document(u'trigger')
-print(doc_ref.get())
-
 #   Let's initialize the Bluetooth prior to running the main
-#ble_manager = BleManager()
+ble_manager = BleManager()
 
 #   Run the main in a background thread
-#ble_manager.ble.run_mainloop_with(main)
+ble_manager.ble.run_mainloop_with(main)
 #######     --------------------------------------------    #######
