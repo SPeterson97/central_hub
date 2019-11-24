@@ -13,6 +13,10 @@ from datetime import datetime
 import os
 import uuid
 
+#   Initialize some global variables
+update = False
+db = None
+
 #######     Below are functions to support the main loop    #######
 def run_mode():
     #   See if there are any commandline arguments to process
@@ -226,10 +230,6 @@ def main():
 #######               Initialization Pre-Main               #######
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/SeniorDesign/central_hub/ParkIT-3ee0b46b06f7.json"
-
-#   Initialize some global variables
-update = False
-db = None
 
 #   Let's initialize the Bluetooth prior to running the main
 ble_manager = BleManager()
