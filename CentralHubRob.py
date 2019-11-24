@@ -50,9 +50,14 @@ def add_peripheral():
 def run():
     #   Set up database connections
     print("Setting up database connection...")
-    db = firestore.Client()
-    db_col = db.collection(u'data')
+    self.db = firestore.Client()
+    db_col = self.db.collection(u'data')
     print("Connection established")
+    
+    #   Set up a watcher for the document
+    print("Setting up trigger monitor")
+    doc_watch = db.collection(u'get_data_trigger').document(u'trigger').on_snapshot(trigger_update)
+    print("Trigger monitor established")
 
     #   Gather the peripherals from the data base
     devices = gather_database_peripherals()
@@ -80,8 +85,8 @@ def run():
         print("Counter: "+str(count))
         #counter = counter + 1
         
-        #   Sleep for 1min now
-        time.sleep(15)
+        #   Wait for 5 min or a response
+        check_for_update()
     return 0
     
 def gather_database_peripherals():
@@ -166,6 +171,33 @@ def get_data(device):
         #   Make sure we disconnect
         #ble_manager.disconnect(device.device)
         return#print("Disconnected")
+        
+def check_for_update():
+    #   Will check the database to see if we update, otherwise just wait 5 min
+    start = time.time()
+    time.clock()
+    
+    elapsed = 0
+    print("Waiting to update")
+    while elapsed < 300 and not self.update:
+        #   Will wait 5 min or until triggered
+        time.sleep(5)
+        elapsed = time.time() - start
+        
+    return
+
+def trigger_update(doc_snapshot, changes, read_time):
+    #   Tell system to update
+    self.update = True
+    
+    #   Set the system back to 0 to reset the trigger
+    print("Setting the trigger back to 0")
+    db_col = self.db.collection(u'get_data_trigger')
+    doc_ref = db_col.document(u'trigger')
+    doc_ref.set{(
+        u'get_data': 0
+    )}
+    return
 
 #######     --------------------------------------------    #######
 
