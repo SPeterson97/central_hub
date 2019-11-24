@@ -50,8 +50,8 @@ def add_peripheral():
 def run():
     #   Set up database connections
     print("Setting up database connection...")
-    self.db = firestore.Client()
-    db_col = self.db.collection(u'data')
+    global db = firestore.Client()
+    db_col = db.collection(u'data')
     print("Connection established")
     
     #   Set up a watcher for the document
@@ -179,7 +179,7 @@ def check_for_update():
     
     elapsed = 0
     print("Waiting to update")
-    while elapsed < 300 and not self.update:
+    while elapsed < 300 and not update:
         #   Will wait 5 min or until triggered
         time.sleep(5)
         elapsed = time.time() - start
@@ -188,11 +188,11 @@ def check_for_update():
 
 def trigger_update(doc_snapshot, changes, read_time):
     #   Tell system to update
-    self.update = True
+    update = True
     
     #   Set the system back to 0 to reset the trigger
     print("Setting the trigger back to 0")
-    db_col = self.db.collection(u'get_data_trigger')
+    db_col = db.collection(u'get_data_trigger')
     doc_ref = db_col.document(u'trigger')
     doc_ref.set({
         u'get_data': 0
@@ -226,6 +226,8 @@ def main():
 #######               Initialization Pre-Main               #######
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/SeniorDesign/central_hub/ParkIT-3ee0b46b06f7.json"
+
+update = False
 
 #   Let's initialize the Bluetooth prior to running the main
 ble_manager = BleManager()
