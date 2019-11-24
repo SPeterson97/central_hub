@@ -50,6 +50,21 @@ class BlePeripheral:
         #   Clear data
         self.saved_data_buffer = list()
         
+    def return_data(self):
+        #   First, check to see if there is data to send
+        if self.saved_data_buffer is None or len(self.saved_data_buffer) < 2:
+            print("No data to send to database")
+            return
+                
+        #   Parse data and send it to the database
+        data = self._parse_data()
+            
+        #   Clear data
+        self.saved_data_buffer = list()
+        
+        #   Return the parsed data
+        return data
+        
     def _parse_data(self):
         #   Append all the data together
         temp_str = ""

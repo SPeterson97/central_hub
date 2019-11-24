@@ -41,6 +41,42 @@ def run_mode():
 #######     Add a new peripheral to get data from           #######
 def add_peripheral():
     #   Here we want to collect data and add data to the database
+    new_device_id = input("What to make the device id? ")
+    mounted_height = input("What's the mounted height? ")
+    data_arr = []
+    
+    print("Setting up database connection...")
+    db = firestore.Client()
+    db_col = db.collection(u'data')
+    doc_ref = db_col.document(new_device_id)
+    print("Connection established")
+    
+    #   Gather the peripherals from the data base
+    devices = gather_database_peripherals()
+    
+    for i in range(3):
+        #   Gather data 3 times
+        for device in devices:
+            #   Get the data from the readings
+            get_data(device)
+            
+            print("Got data")
+            
+            data.append(device.return_data())
+    
+    #   All data collected, now send to database
+    doc_ref.set({
+        u'base_to_road_angle' : 15,
+        u'reading1' : data[0],
+        u'reading2' : data[1],
+        u'reading3' : data[2],
+        u'gps_location' : None,
+        u'lat' : 0,
+        u'long' : 0,
+        u'mounted_height' : mounted_height,
+        u'sensor_id' : new_device_id
+    })
+    print("Done")
     return 0
 
 
