@@ -199,7 +199,7 @@ def trigger_update(doc_snapshot, changes, read_time):
     
     #   Set the system back to 0 to reset the trigger
     print("Setting the trigger back to 0")
-    global db
+    db = firestore.Client()
     db_col = db.collection(u'get_data_trigger')
     doc_ref = db_col.document(u'trigger')
     doc_ref.set({
