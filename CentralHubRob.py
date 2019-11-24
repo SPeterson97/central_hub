@@ -192,6 +192,7 @@ def check_update():
     #   Now need to check if we need to update
     if to_update == 1:
         #   Yes, update. Reset back to 0.
+        print("Trigger set")
         doc_ref.set({
             u'get_data': 0
         })
