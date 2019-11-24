@@ -13,10 +13,6 @@ from datetime import datetime
 import os
 import uuid
 
-#   Initialize some global variables
-update = False
-db = None
-
 #######     Below are functions to support the main loop    #######
 def run_mode():
     #   See if there are any commandline arguments to process
@@ -57,11 +53,6 @@ def run():
     db = firestore.Client()
     db_col = db.collection(u'data')
     print("Connection established")
-    
-    #   Set up a watcher for the document
-    print("Setting up trigger monitor")
-    doc_watch = db.collection(u'get_data_trigger').document(u'trigger').on_snapshot(trigger_update)
-    print("Trigger monitor established")
 
     #   Gather the peripherals from the data base
     devices = gather_database_peripherals()
@@ -181,31 +172,26 @@ def check_for_update():
     start = time.time()
     time.clock()
     
-    global update
-    
     elapsed = 0
     print("Waiting to update")
-    while elapsed < 300 and not update:
+    while elapsed < 300 and not check_update():
         #   Will wait 5 min or until triggered
         time.sleep(5)
         elapsed = time.time() - start
         
     return
-
-def trigger_update(doc_snapshot, changes, read_time):
-    #   Tell system to update
-    global update
-    update = True
     
-    #   Set the system back to 0 to reset the trigger
-    print("Setting the trigger back to 0")
+def check_update():
+    #   Check for trigger
+    print("Checking to see if trigger was set")
     db = firestore.Client()
     db_col = db.collection(u'get_data_trigger')
     doc_ref = db_col.document(u'trigger')
+    
+    #   Need to set back to 0
     doc_ref.set({
         u'get_data': 0
     })
-    return
 
 #######     --------------------------------------------    #######
 
@@ -235,9 +221,18 @@ def main():
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/SeniorDesign/central_hub/ParkIT-3ee0b46b06f7.json"
 
+#   Initialize some global variables
+update = False
+db = None
+
+db = firestore.Client()
+db_col = db.collection(u'get_data_trigger')
+doc_ref = db_col.document(u'trigger')
+print(doc_ref.get())
+
 #   Let's initialize the Bluetooth prior to running the main
-ble_manager = BleManager()
+#ble_manager = BleManager()
 
 #   Run the main in a background thread
-ble_manager.ble.run_mainloop_with(main)
+#ble_manager.ble.run_mainloop_with(main)
 #######     --------------------------------------------    #######
