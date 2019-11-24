@@ -47,7 +47,7 @@ def add_peripheral():
     
     print("Setting up database connection...")
     db = firestore.Client()
-    db_col = db.collection(u'data')
+    db_col = db.collection(u'sensor_data')
     doc_ref = db_col.document(new_device_id)
     print("Connection established")
     
