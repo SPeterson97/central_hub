@@ -181,6 +181,8 @@ def check_for_update():
     start = time.time()
     time.clock()
     
+    global update
+    
     elapsed = 0
     print("Waiting to update")
     while elapsed < 300 and not update:
@@ -192,11 +194,12 @@ def check_for_update():
 
 def trigger_update(doc_snapshot, changes, read_time):
     #   Tell system to update
+    global update
     update = True
     
     #   Set the system back to 0 to reset the trigger
     print("Setting the trigger back to 0")
-    db = firestore.Client()
+    global db
     db_col = db.collection(u'get_data_trigger')
     doc_ref = db_col.document(u'trigger')
     doc_ref.set({
