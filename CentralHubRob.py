@@ -50,7 +50,7 @@ def add_peripheral():
 def run():
     #   Set up database connections
     print("Setting up database connection...")
-    global db = firestore.Client()
+    db = firestore.Client()
     db_col = db.collection(u'data')
     print("Connection established")
     
@@ -227,7 +227,9 @@ def main():
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/home/pi/Documents/SeniorDesign/central_hub/ParkIT-3ee0b46b06f7.json"
 
+#   Initialize some global variables
 update = False
+db = None
 
 #   Let's initialize the Bluetooth prior to running the main
 ble_manager = BleManager()
