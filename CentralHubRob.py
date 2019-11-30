@@ -41,7 +41,7 @@ def run_mode():
 #######     Add a new peripheral to get data from           #######
 def add_peripheral():
     #   Here we want to collect data and add data to the database
-    new_device_id = int(input("What to make the device id? "))
+    new_device_id = input("What to make the device id? ")
     mounted_height = int(input("What's the mounted height (cm)? "))
     data_arr = []
     
@@ -74,7 +74,7 @@ def add_peripheral():
         u'lat' : 0,
         u'long' : 0,
         u'mounted_height' : mounted_height,
-        u'sensor_id' : new_device_id
+        u'sensor_id' : int(new_device_id)
     })
     print("Done")
     return 0
