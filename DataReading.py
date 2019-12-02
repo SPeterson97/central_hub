@@ -30,8 +30,12 @@ class DataReading:
         except:
             distance = 0
         
-        #   Remove ok if in buffer
+        #   Remove ok, o, k if in buffer
         if "ok" in parsed_data[0]:
             parsed_data[0] = parsed_data[0].replace("ok","")
+        if "o" in parsed_data[0]:
+            parsed_data[0] = parsed_data[0].replace("o","")
+        if "k" in parsed_data[0]:
+            parsed_data[0] = parsed_data[0].replace("k","")
         
         self.angle_data[str(parsed_data[0])] = distance
