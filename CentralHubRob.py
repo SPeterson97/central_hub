@@ -182,7 +182,7 @@ def get_data(device):
             return
         
         #   Now sleep for 15 seconds
-        time.sleep(11)
+        time.sleep(8)
         
         #   Set up device to start reading data
         thread = Thread(target = ble_manager.read_data, args = (device, ))
@@ -212,7 +212,7 @@ def check_for_update():
     print("Waiting to update")
     while elapsed < 300 and not check_update():
         #   Will wait 5 min or until triggered
-        time.sleep(5)
+        time.sleep(2)
         elapsed = time.time() - start
         
     return
